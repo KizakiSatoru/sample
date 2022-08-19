@@ -12,9 +12,9 @@
         let KEY = "myBMI";
         let bmi = 0;
 
-        var applicationKey = "アプリケーションキー";
-        var clientKey = "シークレットキー";
-        var ncmb = new NCMB(applicationKey, clientKey);
+        let applicationKey = "dd0f15299fce7a4a28cf39337d61e87ed036c7f844092cefdb6ca3185b38fac7";
+        let clientKey = "b3ccce343c2076b218a45bf1459b9a66999a45931443258a331a49a5dc03b595";
+        let ncmb = new NCMB(applicationKey, clientKey);
 
         function uploadData(){
             // 身長を取得
@@ -22,10 +22,10 @@
             // 体重を取得
             let = weight = document.getElementById("weight").value;
             // ニフクラのデータストアにクラスを作成
-            var HealthCareClass = ncmb.DataStore("HealthCare");
-            var healthCareClass = new HealthCareClass();
+            let HealthCareClass = ncmb.DataStore("HealthCare");
+            let healthCareClass = new HealthCareClass();
             // データを保存
-            var nowDate = new Date();
+            let nowDate = new Date();
             healthCareClass.set("Date", nowDate)
             .set("height", height)
             .set("weight", weight)
@@ -37,15 +37,15 @@
         // ローカルストレージをセットします。
         function saveData() {
             // BMI値を保存する
-            var obj = { value: bmi }
+            let obj = { value: bmi }
             localStorage.setItem(KEY, JSON.stringify(obj));
             alert("Local Storage: データーをセットしました。");
         }
 
-        // ローカルストレージの値を取得します。。
+        // ローカルストレージの値を取得します。
         function getData() {
-            var item = localStorage.getItem(KEY);
-            var obj = JSON.parse(item);
+            let item = localStorage.getItem(KEY);
+            let obj = JSON.parse(item);
             document.getElementById("log").innerHTML = "前回のBMI値: " + obj.value;
         }
 
