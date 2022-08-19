@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+
+        let KEY = "myBMI";
+        let bmi = 0;
+
+        var applicationKey = "アプリケーションキー";
+        var clientKey = "シークレットキー";
+        var ncmb = new NCMB(applicationKey, clientKey);
+
+        function uploadData(){
+            // 身長を取得
+            let = height = document.getElementById("height").value;
+            // 体重を取得
+            let = weight = document.getElementById("weight").value;
+            // ニフクラのデータストアにクラスを作成
+            var HealthCareClass = ncmb.DataStore("HealthCare");
+            var healthCareClass = new HealthCareClass();
+            // データを保存
+            var nowDate = new Date();
+            healthCareClass.set("Date", nowDate)
+            .set("height", height)
+            .set("weight", weight)
+            .set("bmi", bmi)
+            .save();
+            alert("データをアップロードしました！");
+        }
+
+        // ローカルストレージをセットします。
+        function saveData() {
+            // BMI値を保存する
+            var obj = { value: bmi }
+            localStorage.setItem(KEY, JSON.stringify(obj));
+            alert("Local Storage: データーをセットしました。");
+        }
+
+        // ローカルストレージの値を取得します。。
+        function getData() {
+            var item = localStorage.getItem(KEY);
+            var obj = JSON.parse(item);
+            document.getElementById("log").innerHTML = "前回のBMI値: " + obj.value;
+        }
+
+        function calc(){
+            let = height = document.getElementById("height").value / 100;
+            let = weight = document.getElementById("weight").value;
+            bmi = weight / (height * height);
+            document.getElementById("bmi").innerHTML = "BMI：" + bmi;
+
+            let message = "あなたは";
+            if(bmi < 18.5){
+                message += "低体重（やせ型）です。";
+            } else if(bmi < 25){
+                message += "普通体重です。";
+            } else if(bmi < 30){
+                message += "肥満(１度)です。";
+            } else if(bmi < 35){
+                message += "肥満(２度)です。";
+            } else if(bmi < 40){
+                message += "肥満(３度)です。";
+            } else if(bmi >= 40){
+                message += "肥満(４度)です。";
+            }
+            document.getElementById("message").innerHTML = message;
+        }
+    </script>
+</head>
+<body>
+	<h1>BMI計算</h1>
+	<h2>身長</h2>
+	<input type="text" value="" id="height">cm
+	<h2>体重</h2>
+	<input type="text" value="" id="weight">kg
+	<hr>
+	<button onclick="calc()">計算</button>
+    
+    <button onclick="saveData()">データを記録</button>
+    <button onclick="getData()">前回のデータを取得</button>
+    <button onclick="uploadData()">データをアップロード</button>
+	<p id="bmi"></p>
+	<p id="message"></p>
+    <p id="log"></p>
+</body>
+</html>
